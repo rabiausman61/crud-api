@@ -4,7 +4,7 @@ app.use(express.json());
 let faculty = 
 [{
      
-    "id": "1",
+ 
   "name": "Rabia",
   "gender": "Female",
   "email": " rabiausman331@gmail.com",
@@ -19,24 +19,18 @@ let faculty =
   "phone no":["0300-8282828","333333" ,"3333333"   ],
  },
  {
-     
-  "id": "2",
 "name": "Ayesha",
 "gender": "Female",
 "email": " ayeshaarshad331@gmail.com",
 "address" : {
   "street address": " House no 2229",
-  "city": "sialkotm",
+  "city": "sialkot",
   "country " : "pakistan",
 },
 "course code": "CSS 222",
 "phone no":["0300-8282828","333333" ,"3333333"   ],
-
- 
 },
 {
-     
-  "id": "3",
 "name": "Tahir",
 "gender": "Male",
 "email": " tahirtariq@gmail.com",
@@ -51,38 +45,42 @@ let faculty =
  
 },
 ];
+
+let i = 0, ln = faculty.length;
+for (i;i<ln;i++){
+  faculty[i].uniqueId = i+1;
+}
+
+console.log(faculty);
 app.get("/api/faculty", function (req, res) {
   res.send(faculty);
 });
 //get one resource
-app.get("/api/faculty/:id", function (req, res) {
-  if (!faculty[req.params.id])
+app.get("/api/faculty/:index", function (req, res) {
+  if (!faculty[req.params.index])
     return res.status(400).send("data not found");
-  res.send(faculty[req.params.id]);
+  res.send(faculty[req.params.index]);
 });
-app.post("/api/faculty/:id", function (req, res) {
-  faculty.push(req.body);
+app.post("/api/faculty/:index", function (req, res) {
+
+faculty.push(req.body);
+
   res.send("Record added");
 }); 
 
-app.delete("/api/faculty/:id", function (req, res) {
-  faculty.splice(req.params.id, 1);
+app.delete("/api/faculty/:index", function (req, res) {
+  faculty.splice(req.params.index, 1);
   res.send(faculty);
 }); 
-app.put("/api/faculty/:id", function (req, res) {
-    // Reading isbn from the URL
-    const id = req.params.id;
-    const newBook = req.body;
 
-    // Remove item from the books array
-    for (let i = 0; i < faculty.length; i++) {
-        let book = faculty[i]
-        if (book.id === id) {
-            faculty[i] = newBook;
-        }
-    }
 
-    res.send('Record edited');
+
+app.put("/api/faculty/:index", function (req, res) {
+  faculty[req.params.index] = req.body;
+ 
+
+  res.send(faculty[req.params.index]);
 });
 
-app.listen(3000);
+
+  app.listen(3000);
